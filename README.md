@@ -1,7 +1,7 @@
 # PBP Assignment02 
 
 ## How did I implement the tasks on the checklist?
-* ***Create a new Django project.*** 
+* ***Create a new Django project.***
 First I had to think of what I wanted to make for this assignment. One of the requirements for the project is that it must be an inventory management application. As a giant fan of card games and recently being
 interested in the Digimon card game, I decided to make my application a Digimon TCG inventory manager. With my plan set, I started by making a local directory (named `Digimon_TCG_inventory`) on my laptop and
 initiated git on it. I then made a Github repository online (with the same name) and connected it to the newly created local directory, thus allowing me to push changes made on my laptop to the online repository,
