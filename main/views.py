@@ -9,7 +9,8 @@ def show_main(request):
         'set_release': 'RB-01: Resurgence Booster',
         'amount' : 0,
         'price': 4.65,
-        'description' : 'a really neat card'
+        'description' : 'a really neat card',
+        'appname': 'Digimon TCG Inventory Manager'
     }
 
     return render(request, 'main.html', context)

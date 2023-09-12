@@ -8,3 +8,11 @@ class MainTest(TestCase):
     def test_main_using_main_template(self):
         response = Client().get('/main/')
         self.assertTemplateUsed(response, 'main.html')
+    
+    def test_context_variables_used(self):
+        response = Client().get('/main/')
+        self.assertContains(response, "Weregarurumon")
+    
+    def test_words_not_used(self):
+        response = Client().get('/main/')
+        self.assertNotContains(response, "Muhammad")
