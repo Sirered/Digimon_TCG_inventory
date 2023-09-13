@@ -1,6 +1,6 @@
 # PBP Assignment02 
 
-You can access my deployed Django Project [here](https://digimontcg-inventory-manager.adaptable.app)
+You can access my deployed Django Project [here](https://digimontcg-inventory-manager.adaptable.app/main/)
 
 
 ## How did I implement the tasks on the checklist?
