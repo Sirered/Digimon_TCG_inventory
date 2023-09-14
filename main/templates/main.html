@@ -1,14 +1,18 @@
-<h1>{{ appname }}</h1>
-<h5>Student Name:</h5>
-<p>{{ name }}</p>
-<h5>Class:</h5>
-<p>{{ class }}</p>
-<br>
-<p>This is a work in progress. Here is info about Weregarurumon</p>
-<br>
-<p>Card name: {{ cardname }}</p>
-<p>Category: {{ category }}</p>
-<p>Most recent release: {{ set_release }}</p>
-<p>Amount in Stock: {{ amount }}</p>
-<p>Average listed price: ${{ price }}</p>
-<p>Description: {{description }}</p>
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ appname }}</h1>
+    <h5>Student Name:</h5>
+    <p>{{ name }}</p>
+    <h5>Class:</h5>
+    <p>{{ class }}</p>
+    <br>
+    <p>This is a work in progress. Here is info about Weregarurumon</p>
+    <br>
+    <p>Card name: {{ cardname }}</p>
+    <p>Category: {{ category }}</p>
+    <p>Most recent release: {{ set_release }}</p>
+    <p>Amount in Stock: {{ amount }}</p>
+    <p>Average listed price: ${{ price }}</p>
+    <p>Description: {{description }}</p>
+{% endblock content %}
