@@ -7,12 +7,44 @@
     <h5>Class:</h5>
     <p>{{ class }}</p>
     <br>
-    <p>This is a work in progress. Here is info about Weregarurumon</p>
+    <p>This is a work in progress. Here is info about {{ item.name }}</p>
     <br>
-    <p>Card name: {{ cardname }}</p>
-    <p>Category: {{ category }}</p>
-    <p>Most recent release: {{ set_release }}</p>
-    <p>Amount in Stock: {{ amount }}</p>
-    <p>Average listed price: ${{ price }}</p>
-    <p>Description: {{description }}</p>
+    <p>Card name: {{ item.name }}</p>
+    <p>Category: {{ item.category }}</p>
+    <p>Card code: {{ item.code }}</p>
+    <p>Amount in Stock: {{ item.amount }}</p>
+    <p>Average listed price: ${{ item.price }}</p>
+    <p>Description: {{ item.description }}</p>
+    <br>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Amount</th>
+            <th>Date Added</th>
+        </tr>
+    
+        {% comment %} Below is how to show the item data {% endcomment %}
+    
+        {% for item in items %}
+            <tr>
+                <td>{{item.name}}</td>
+                <td>{{item.category}}</td>
+                <td>${{item.price}}</td>
+                <td>{{item.amount}}</td>
+                <td>{{item.date_added}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    
+    <br />
+    
+    <a href="{% url 'main:create_item' %}">
+        <button>
+            Add New Item
+        </button>
+    </a>
+    
 {% endblock content %}

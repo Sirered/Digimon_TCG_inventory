@@ -11,7 +11,7 @@ class MainTest(TestCase):
     
     def test_context_variables_used(self):
         response = Client().get('/main/')
-        self.assertContains(response, "Weregarurumon")
+        self.assertContains(response, "Galih")
     
     def test_words_not_used(self):
         response = Client().get('/main/')
