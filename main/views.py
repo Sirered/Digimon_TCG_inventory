@@ -12,13 +12,6 @@ def show_main(request, id=1):
         'class' : 'PBP KKI',
         'items' : items,
         'item' : id_item,
-        'cardname': 'Weregarurumon',
-        'category': 'Blue, Lv.7 Digimon',
-        'code': 'RB-01: Resurgence Booster',
-        'amount' : 0,
-        'price': 4.65,
-        'description' : 'a really neat card',
-        'appname': 'Digimon TCG Inventory Manager'
     }
 
     return render(request, 'main.html', context)
