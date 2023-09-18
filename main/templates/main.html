@@ -19,8 +19,8 @@
 
     <table>
         <tr>
+            <th>Code</th>
             <th>Name</th>
-            <th>Category</th>
             <th>Price</th>
             <th>Amount</th>
             <th>Date Added</th>
@@ -30,8 +30,8 @@
     
         {% for item in items %}
             <tr>
+                <td> <a href="/{{item.id}}">{{item.code}}</a></td>
                 <td>{{item.name}}</td>
-                <td>{{item.category}}</td>
                 <td>${{item.price}}</td>
                 <td>{{item.amount}}</td>
                 <td>{{item.date_added}}</td>
