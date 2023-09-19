@@ -93,3 +93,25 @@ ___________________________
    **Model-View** This is where the functions that processes the user requests and Read/Write the models are stored. It also serves as a link between the Model and the View.
 
 Overall all 3 design patterns have similaritues in which all storage-based logic are stored in a component called model, some portion if not all UI elements is in the View component and there is some way linking the 2 components to provide the user with a webpage. Differences lie in how user requests are handled (MVT handles it in Views, MVC has the Controller component handle it and MVVM has Model-View handle it), how the UI is generated, as well as how connected the View and the Model, along with a few others.
+
+# PBP Assignment03
+
+## Difference between POST and GET method?
+
+   Let's first discuss how POST and GET works. Whenever anyone submits a POST form, the data inputted on the form is bundled up and encoded, sent to the server, in which it eill be processed and returns a response to the user. On the other hand the GET method bundles the dubmitted data into a string which will be used to create a URL which contains the address to where the data will be sent as well as any relevant keys and values. 
+   
+   The main difference between POST and GET is their uses, specifically the fact that posts should be used if you want users to submit data and/or make changes to the system/server, whereas get should be used to make requests/queries that don't make any system changes, and are just used to fetch data, such as fetching the result from a function, an http request, search etc. This is because in general post is much secure, especially when dealing with larger amounts of data, due to the fact that hackers can exploit the GET method by mimicking valid form requests, while the data from a POST request is encoded and validated by Django's protection mechanisms, such as the CSRF protection. Furthermore, GET is not recommended for the submission of sensitive info, as the submitted data will be visible as a URL in your taskbar, and easily accessible via search history and server logs.
+
+_______________________
+
+## What are the main differences between XML, JSON, and HTML in the context of data delivery?
+
+   HTML (Hyper Text Markup Language) is a markup language that utilises tags (like <h1> </h1>), which is mainly used to format data aimed to make it readable and appealing to users. It wraps content with tags to define how the content should be formatted (e.g. h1 is the tag used to make giant headers). 
+
+   XML (Extended markup language) is also a markup language that utlises tags that wrap around content, however instead of being used to define the formatting of content, XML is purely used to send and recieve data. It is equipped to do so by having a structure and rules that require information such as the type of the content to be specified. This is incredibly helpful when working with databases, since the XML structure works hand in hand with database structure, so when you input a data point in XML, since the type of each statistic/attribute in the data is defined by tags, the database knows where each part of the data needs to be stored. For example in XML if you want to send data about a ship named Bessie, in XML that would be represented ad <ship><name>Bessie</name></ship> in which when sent to the database, it will know that the data given is about a ship with the name of Bessie and store it accordingly. 
+
+   JSON (Java Script Object Notatiuon) serves the same purpose as XML, ehere they are used to dtructure data to be sent and recieved, however they differ in how this is done. XML, like all markup language, define content/data in a tree manner, whereas JSON defines data in a key: value pair approach, similar to dictionaries. Due to how similar JSON's format is compared to modern programming languages such as Java, this form of data transmission/record has a much easier time interacting with those modern languages. Though keep in mind that since XML's structure is a lot stricter, XML is better than JSON when it comes to dealing with large and varied data, as it is a lot easier for machines to read the data and detect errors in XML, though JSON tends to still be the popular option as it is easier to read for humans, and is structured in a way that is familiar to programmers
+
+   Overall HTML is used to define how to format content in a very user friendly way, while XML and JSON are used for data transmission and recording, structured similarly to how data is stored in the database, only having differences on how they fulfill that role. HTML is good for the frontend data presentation, whereas XML or JSON (chosen depending on your needs and familarity) is used to transmit data from and to the database
+
+______________________
