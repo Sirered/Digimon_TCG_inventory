@@ -106,7 +106,7 @@ _______________________
 
 ## What are the main differences between XML, JSON, and HTML in the context of data delivery? Why is JSON often used in data exchange between modern web applications?
 
-   HTML (Hyper Text Markup Language) is a markup language that utilises tags (like <h1> </h1>), which is mainly used to format data aimed to make it readable and appealing to users. It wraps content with tags to define how the content should be formatted (e.g. h1 is the tag used to make giant headers). 
+   HTML (Hyper Text Markup Language) is a markup language that utilises tags (like `<h1> </h1>`), which is mainly used to format data aimed to make it readable and appealing to users. It wraps content with tags to define how the content should be formatted (e.g. h1 is the tag used to make giant headers). 
 
    XML (Extended markup language) is also a markup language that utlises tags that wrap around content, however instead of being used to define the formatting of content, XML is purely used to send and recieve data. It is equipped to do so by having a structure and rules that require information such as the type of the content to be specified. This is incredibly helpful when working with databases, since the XML structure works hand in hand with database structure, so when you input a data point in XML, since the type of each statistic/attribute in the data is defined by tags, the database knows where each part of the data needs to be stored. For example in XML if you want to send data about a ship named Bessie, in XML that would be represented ad <ship><name>Bessie</name></ship> in which when sent to the database, it will know that the data given is about a ship with the name of Bessie and store it accordingly. 
 
@@ -117,3 +117,36 @@ _______________________
    Overall HTML is used to define how to format content in a very user friendly way, while XML and JSON are used for data transmission and recording, structured similarly to how data is stored in the database, only having differences on how they fulfill that role. HTML is good for the frontend data presentation, whereas XML or JSON (chosen depending on your needs and familarity) is used to transmit data from and to the database
 
 ______________________
+
+## Explain how you implemented the checklist above step-by-step.
+
+* **Create a form input to add a model object to the previous app.**
+   First, I made a file called forms.py in the main application directory. In that file I defined a subclass of the ModelForm class(that is provided by Django), named ItemForm. Within the ItemForm class is the inner class Meta, in which we define the model used for the form (which is the Item model made last week), as well as the fields that will be asked (which is all the attribvutes of the Item class other than Date Added, which by default is the date that the form was answered on).
+  
+  Afterwards I went to the views.py and imported the Item and ItemForm class from main.models and main.forms (found in the main application) and the HTTPResponse and serializers from django.http and django.core (provided by Django). Then I added the create_item function, where if it is called and there has been a POST request, with valid entries, the request will be saved and call the show_main function, returning the user to the main page, otherwise it will render the create_item.html template with an empty ItemForm as it's context. Next, I created the create_item.html that will be called by the create_item function, which presents the user with each field of the Item model (other than date added) and a text bow to fill in the data of the item. The template will also provide a button with the text "Add Item" which when pressed will submit the item and it's data, to the create_item function which will save the form to the database.
+
+  Lastly, I added the a path in the urls.py file in the main application directory that calls the create_item function by adding `path('create-item', create_item, name='create_item'),` to the urlpatterns list.  Afterwards in the main.html I added a button with the text "Add New Item" on it, that sends the user to the create_item page, via the new url path.
+
+* **Add 5 views to view the added objects in HTML, XML, JSON, XML by ID, and JSON by ID formats.**
+
+   Firstly I made changes in the show_main function in the views.py file, by adding an id parmater which by default is 1. I then added a line that accesses all Item objects and store it in the variable items (`items = Item.objects.all()`), as well as a line that gets an object from the Item objects list according to the id inputted and store it in a variable named id_item(`id_item = Item.objects.get(id=id)`). After that, I removed all variables other than my name and class in the context dictionary and replaced them with the lines `'item': id_item` and `'items': items`. To accomodate these changes, I editted the main.html template so that all instances of `{{variable}}` other than my name and class are changed to `{{item.variable}}`, which will make it display the value of that variable/attribute of the item that is curretly being viewed (according to the id taken from the show_main function). At the end I also added added a table which lists all items that have been stored in the database, only presenting the name, code, price, amount in stock and Date Added for each item.
+  
+  In the urls.py file I added a path in urlpatterns: `path('<int:id>/', show_main, name='show_main'),`, which will reroute paths that is just an integer to the show_main function, and will use the integer as the input for the id parameter for the show_main function. With that, people can just typr the id of an item on the URL to view the full information of the item of that id. In the main.html template I wrapped the name of the items in the table with `<a>` tags, with the `href "/{{item.id}}"`, so that if users click on the name of an item in the table, it will return the page with the full information of the item that was clicked.
+
+  After that I added a show_xml function in views.py which when called, will recieve a request, store all Item objects in a variable called data (`data = Item.objects.all()`) then return an HTTP response that translates and formats that data to XML by using serialisers (`return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")`) to the user. I also a show_json function that serves a similar purpose as show_xml, but the data is translated to JSON format instead of XML (it uses the same method as show_xml, just replace every instance of xml in the HTTPResponse function call to json).
+
+   Lastly, I added a show_xml_by_id and show_json_by_id function which, when called will recieve a request and an integer (storing that integer as a parameter called id), gets the data of the item with that id (`data = Item.objects.filter(pk = id)`) then returns an HTTP response with the data of that item in xml or json(done the same way as their non-id counterparts)
+
+* **Create URL routing for each of the views added in point 2.**
+
+  In the urls.py file in the main application add paths for each of the newly added functions in the urlpatterns list like so:
+  `
+  path('xml/', show_xml, name= 'show_xml'),
+  path('json/', show_json, name = 'show_json'),
+  path('xml/<int:id>/', show_xml_by_id, name= 'show_xml_by_id'),
+  path('json/<int:id>/', show_json_by_id, name= 'show_json_by_id')
+  `
+  This will reroute '/xml/' and '/json/' path to the show_xml and show_json function respectively and if they add an integer to the end, it will reroute to the show_xml_by_id or show_json_by_id function with the integer added to the end as the input for the id parameter of those functions.
+
+## Access the five URLs in point 2 using Postman, take screenshots of the results in Postman, and add them to README.md.
+
