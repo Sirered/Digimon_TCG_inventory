@@ -148,5 +148,30 @@ ______________________
   `
   This will reroute '/xml/' and '/json/' path to the show_xml and show_json function respectively and if they add an integer to the end, it will reroute to the show_xml_by_id or show_json_by_id function with the integer added to the end as the input for the id parameter of those functions.
 
+______________________________________
+
 ## Access the five URLs in point 2 using Postman, take screenshots of the results in Postman, and add them to README.md.
 
+* **HTML VIEW**
+
+<img src="/assets/PBP_Assignment3_html1.png">
+<img src="/assets/PBP_Assignment3_html2.png">
+<img src="/assets/PBP_Assignment3_html3.png">
+
+* **XML VIEW**
+
+<img src="/assets/PBP_Assignment3_xml1.png">
+<img src="/assets/PBP_Assignment3_xml2.png">
+
+* **JSON VIEW**
+
+<img src="/assets/PBP_Assignment3_json1.png">
+<img src="/assets/PBP_Assignment3_json2.png">
+
+* **XML BY ID VIEW**
+
+<img src="/assets/PBP_Assignment3_xmlID.png">
+
+* **JSON BY ID VIEW**
+
+<img src="/assets/PBP_Assignment3_jsonID.png">
