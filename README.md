@@ -140,12 +140,17 @@ ______________________
 * **Create URL routing for each of the views added in point 2.**
 
   In the urls.py file in the main application add paths for each of the newly added functions in the urlpatterns list like so:
+  
   `
   path('xml/', show_xml, name= 'show_xml'),
+  
   path('json/', show_json, name = 'show_json'),
+  
   path('xml/<int:id>/', show_xml_by_id, name= 'show_xml_by_id'),
+  
   path('json/<int:id>/', show_json_by_id, name= 'show_json_by_id')
   `
+  
   This will reroute '/xml/' and '/json/' path to the show_xml and show_json function respectively and if they add an integer to the end, it will reroute to the show_xml_by_id or show_json_by_id function with the integer added to the end as the input for the id parameter of those functions.
 
 ______________________________________
