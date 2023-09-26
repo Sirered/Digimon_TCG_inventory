@@ -178,3 +178,19 @@ ______________________________________
 * **JSON BY ID VIEW**
 
 <img src="/assets/PBP_Assignment3_jsonID.png">
+
+# PBP Assignment04
+
+## What is UserCreationForm in Django? Explain its advantages and disadvantages.
+
+   UserCreationForm is a built-in module provided by Django, used to allow people to register to your website, thus creating a user account, which the user will have to login with to access resources that are only accessible to that user or admins/superusers. It does this by inheriting attrivutes and methods from the ModelForm class, however instead of you having to make a model for that modelform and fill out the fields asked yourself, it will instead make an object of the User class (that is a built-in model from Django), which will represent the account of the newly registered user. The fields  of this class is the username (which will be the username of the User object created), password1 (which will be the password associated with the new User object) and password2 (which will be used to verify that password1 is indeed the password the new user wants for their account.
+
+   A giant advantage to UserCreationForm is its easy implementation, as it gives you a default template and since it's a subclass of ModelForm and implements the User class it does all the work of figuring out how to store the data onto the database and ensures that the registration will work with the rest of the modules on Django, which is a lot better than developers fumbling around to make their own registration form in which the worst case scenario is that the implementation lacks security for malicious actors to capitalise on (or just doesn't work). A disadvantage one might come accross is that the default template is very lacklustre and bare, though that issue can be somewhat rectified by making a subclass of the UserCreationForm class and having any new fields be introduced in the subclass, while retaining the important functions of the UserCreationForm, but there still might be specifications where starting from scratch would be a lot less of a hassle. 
+
+## What is the difference between authentication and authorization in Django application? Why are both important?
+
+   Authentication refers to the process of verifying who someone is, ensuring that whoever is trying to claim to be someone or trying to log into an account is indeed the person being claimed or is indeed someone who is allowed to use this account (like how both parents are allowed to access the school account of their child). This is normally done by having the claimer to present/submit something that only the person they are claiming to be should have or know (such as password, ID card, biometrics[like fingerprint scans]). On the other hand, authorisation is the process of deciding what a user should be able to do and what they can access. Examples of authorisation include: deciding if a user has rights to edit content, deciding if a user is allowed to view certain information (such as the private information of other users), deciding if a user can create items in the database etc.
+
+   Both authentication and authorisation is essential for security. If authorisation is weak, malicious actors can deface the website, access private or sensitive information, infect the server or other user's computers etc. If you have strong authorisation, but weak authentication, infiltrators can masquerade as other users or admins and be able to access information or execute actions that only the user being masqueraded can access/do, but others shouldn't, making authorisation useless if the authentication is easily bypassed. Hence, both authentication and authorisation is key to ensure that your web application is secure and isn't exploited
+
+## What are cookies in website? How does Django use cookies to manage user session data?
