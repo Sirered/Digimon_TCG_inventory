@@ -187,10 +187,82 @@ ______________________________________
 
    A giant advantage to UserCreationForm is its easy implementation, as it gives you a default template and since it's a subclass of ModelForm and implements the User class it does all the work of figuring out how to store the data onto the database and ensures that the registration will work with the rest of the modules on Django, which is a lot better than developers fumbling around to make their own registration form in which the worst case scenario is that the implementation lacks security for malicious actors to capitalise on (or just doesn't work). A disadvantage one might come accross is that the default template is very lacklustre and bare, though that issue can be somewhat rectified by making a subclass of the UserCreationForm class and having any new fields be introduced in the subclass, while retaining the important functions of the UserCreationForm, but there still might be specifications where starting from scratch would be a lot less of a hassle. 
 
+________________________________
+
 ## What is the difference between authentication and authorization in Django application? Why are both important?
 
    Authentication refers to the process of verifying who someone is, ensuring that whoever is trying to claim to be someone or trying to log into an account is indeed the person being claimed or is indeed someone who is allowed to use this account (like how both parents are allowed to access the school account of their child). This is normally done by having the claimer to present/submit something that only the person they are claiming to be should have or know (such as password, ID card, biometrics[like fingerprint scans]). On the other hand, authorisation is the process of deciding what a user should be able to do and what they can access. Examples of authorisation include: deciding if a user has rights to edit content, deciding if a user is allowed to view certain information (such as the private information of other users), deciding if a user can create items in the database etc.
 
    Both authentication and authorisation is essential for security. If authorisation is weak, malicious actors can deface the website, access private or sensitive information, infect the server or other user's computers etc. If you have strong authorisation, but weak authentication, infiltrators can masquerade as other users or admins and be able to access information or execute actions that only the user being masqueraded can access/do, but others shouldn't, making authorisation useless if the authentication is easily bypassed. Hence, both authentication and authorisation is key to ensure that your web application is secure and isn't exploited
 
+_________________________________
+
 ## What are cookies in website? How does Django use cookies to manage user session data?
+
+   Internet cookies are small text files sent by the server to your browser and is stored in your browser folder either permanently or for a predetermined amount of time set by the website. These cookies normally contains unique information that identifies the user as well as any information that will be used in future accesses (such as user preferences [like light/dark mose]), and can be read and written to by the website to do functions that require information about previous requests.
+
+   Django uses cookies to manage user session data by sending a session id that uniquely identifies the user and the current session to the browser as a cookie. The actual data is stored in the site database, to ensure data security. Django developers can use the session attribute of a request to write and read data of the current session (using the session id to access that data), thus managing the user session data.
+
+__________________________________
+
+## Are cookies secure to use? Is there potential risk to be aware of?
+
+   Since cookies are in essence files sent from a website server and stored to a user's browser folder, there would undoubtably be security risks. A common example is the use of cookies by business analysts and advertisers to track a user's searching habits, thus infringing on the privacy of users without the user's knowledge nor consent. Even if the cookie isn't specifically meant to be used to infringe on the user's privacy (thus posing a security risk)m if implemented improperly without all security measures in place, attackers can use the use of cookies as a vulnerability. Some examples of cookie-based attacks.
+   
+   For example a website that uses unsecured cookies with no path nor domain are subject to cookie tossing attacks, where since there is no domain or path identified, if there are multiple cookies the website will choose one randomly to use, so if attackers 'tosses' fake cookies to the user and the website chooses to use that cookie, so once the user logs in, the hacker can hijack their session and use their account and access it's data. 
+
+   CSRF (Cross-site request forgery) attacks refer to when users access a malicious website, in which the website accesses cookies used for reputable, innocent websites and embeds links in the cookies that when sent to the server can request the application to do an action (such as edit account info) without the user's consent, which could lead to loss or theft of information or services.
+
+   If cookies sent are improperly encrypted (thus it isn't encrypted or it is easy to decrypt) attackers can capture the cookies during transmission and read the informationm stored in them, which could be very detrimental if login info or personal info is stored into those cookies
+
+   There are still many more ways bad actors can use cookies to execute their schemes, such as cross site scripting, cookie overflow attack, session fixation etc. So unless you really trust the website and are confident that the cookies are properly implemented andhas up to date security measures, one might consider disallowing cookies from that website to ensure your security.
+
+____________________________________
+
+## Explain how you implemented the checklist above step-by-step (not just following the tutorial).
+
+   * **Implement registration, login, and logout functions to allow users to access the previous application.**
+
+   Firstly I imported redirect (from django.shortcuts); UserCreationForm (from django.contrib.auth.forms); messages (from django.contrib); authenticate, login and logout (from django.contrib.auth) and login_required (from django.contrib.auth.decorators) to views.py
+
+   Then I made a register function that made a form (using the UserCreationForm class as the template), then requests input from the user, where if there has been no input from the user yet, will render register.html with the created form as context, where the user can input their registration details, otherwise if the form is filled and valid, the information will be saved to the server and the user will be redirected to the login page, with a message informing the user of the successful registration.
+
+   Afterwards I made the register.html in the templates folder of the main application directory in which the form (which is defined in the regiter function) is represented as a table, with fields in which the user can input their registration details. Since we are using the UserCreationForm class as our template for our form, the fields that the user are asked to fill out is their username, their desired password, and confirmation that the password inputted is correct.
+
+   To allow users to login I made my login_user function in views.py in which the user is asked for their username and password, which will be checked using the authenticate function (provided by Django). If upon authentication, it finds a user with that username and the password is indeed correct, it will log into the user's account and redirect the user to the main page (which we had made in previous Assignments). Otherwise, it will send an error message to the user stating that the username or password was incorrect and rerenders login.html.
+
+   Then, I made the login.html template in the templates folder of the main application directory in which a Username and password is asked, with appropriate text fields to input that data, as well as a button underneath with the text login on it which will run the login_user function with the data inputted in the text fields as the username and password that will be authenticated. There is also a section underneath the button in which the messages that are made by successful registration and unsuccessful login will be displayed.
+
+   To allow users to logout, I made a logout_user function, which will call the logout function provided by Django and redirects the user to the login page. Then I made a button in main.html found to the right of the 'Add New Item' button, that when clicked will call the logout_user function.
+
+   To make it so the main page can only be accessed by users that have logged in I added the @login_required decorator, provided by Django, onto my show_main function, with the parameter of login_url as 'login' so if the user isn't logged in, the decorator will redirect the user to the login page  
+
+   Lastly, in the urls.py file in the main application directory I imported all of the functions made for this assignment and added the following paths in the url_patterns list to define the url paths and which functions they call 
+
+```
+path('register/', register, name='register'),
+path('login/', login_user, name='login'),
+path('logout/', logout_user, name='logout'),
+```
+
+   * **Create two user accounts with three dummy data entries for each account using the model previously created in the application.**
+
+   I just registered 2 different accounts and made 3 items for one of them (but that's done after the next step. We only have to make 3 for one of them, because the other one will get the items made during previous Assignments, which I had 3 of)
+
+   * **Connect Item model with User and display the information of the logged-in user, such as their username**
+
+   In my models.py I imported the User class from django.contrib.auth.models. Then in my Item class/model I added a new attribute named user as a foreign key like so : `user = models.ForeignKey(User, on_delete=models.CASCADE)`, this linked the Item class to the User class, via the user foreign key, thus now every item has a User associated with it. 
+
+   To actually facilitate the linkage of items to users in future item creation we have to change the create_item function in views.py, so that before the form is comitted to the database, it is first saved as an item variable and is assigned a user, the user being the person currently logged in to the website.
+
+   Now that we have decided that our items will now be linked to user accounts, we must also show that in the main page. To do this I changed the show_main page so that the items list will filter according to th current user (so it will only show items linked to the current user) and changed the value of the 'name' key in the context dictionary to the username of the user (so now instead of displaying my name, it will display the user's name). 
+
+   Lastly, to make the model change go into effect we run python manage.py makemigrations. IT IS IMPERATIVE THAT THERE IS AT LEAST 1 USER REGISTERED ON THE WEBSITE AT THIS STAGE. Since we had items previously that aren't linked to a user, it will throw an error. To resolve it I chose the option to change the user value of the previously created items, and set it to one (thus now those items are linked to the user with the id of 1, which would be the first user created. After that is resolved run python manage.py migrate to finalise the changes.
+
+   * **Apply cookies, such as last login, on the main application page.**
+
+   Firstly I imported datetime to views.py. After that I edited the login_user function so that instead of instantly returning the HttpResponseRedirect to main upon successful login, I first saved it as a response variable and set a cookie on that response named 'last_login', which holde the value of the current date and time, like so `response.set_cookie('last_login', str(datetime.datetime.now()))`, after which we can return the response. This makes it so that upon login it will record the time of login into a cookie stored by the user's browser under the name of last_login.
+
+   I then added a new key value pair into the context dictionary like so: `'last_login': request.COOKIES['last_login'],`, which takes the cookie created upon login and sets the value of a variable called last_login as the value taken from the cookie. Then in main.html I added a line before the 'Add New Item' and 'Logout' buttons with the content "Last login session: {{ last_login }}" This will display the last_login value that was taken from the cookie onto the main page.
+
+   Lastly, to delete the cookie upon logout I edited the logout_user function so that it doesn't instantly return the HttpResponseRedirect anymore, instead just saving it into a variable named response. Then we run the .delete_cookie method with the parameter 'last_login' on the response object, which will delete the cookie named last_login. After doing that, we can return response.
