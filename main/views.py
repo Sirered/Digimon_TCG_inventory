@@ -21,6 +21,21 @@ def show_main(request):
         'last_login': request.COOKIES['last_login'],
     }
 
+    if request.method == "POST":
+        print(request.POST)
+        if 'increment' in request.POST:
+            item = items.get(id = request.POST.get('increment'))
+            increment_amount(item)
+            return HttpResponseRedirect(reverse('main:show_main'))
+        elif 'decrement' in request.POST:
+            item = items.get(id = request.POST.get('decrement'))
+            decrement_amount(item)
+            return HttpResponseRedirect(reverse('main:show_main'))
+        elif 'delete' in request.POST:
+            item = items.get(id = request.POST.get('delete'))
+            item.delete()
+            return HttpResponseRedirect(reverse('main:show_main'))
+
     return render(request, 'main.html', context)
 
 def show_main_by_id(request, id):
@@ -41,9 +56,9 @@ def create_item(request):
     form = ItemForm(request.POST or None)
 
     if form.is_valid() and request.method == "POST":
-        product = form.save(commit=False)
-        product.user = request.user
-        product.save()
+        item = form.save(commit=False)
+        item.user = request.user
+        item.save()
         return HttpResponseRedirect(reverse('main:show_main'))
 
     context = {'form': form}
@@ -81,6 +96,16 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('main:login'))
     response.delete_cookie('last_login')
     return response
+
+def increment_amount(item):
+    item.amount += 1
+    item.save()
+
+def decrement_amount(item):
+    if item.amount>0:
+        item.amount -= 1
+    item.save()
+
 
 def show_xml(request):
     data = Item.objects.all()

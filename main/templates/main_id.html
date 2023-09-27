@@ -16,43 +16,10 @@
     <p>Average listed price: ${{ item.price }}</p>
     <p>Description: {{ item.description }}</p>
     <br>
-
-    <table>
-        <tr>
-            <th>Code</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Amount</th>
-            <th>Date Added</th>
-        </tr>
     
-        {% comment %} Below is how to show the item data {% endcomment %}
-    
-        {% for item in items %}
-            <tr>
-                <td> <a href="/{{item.id}}">{{item.code}}</a></td>
-                <td>{{item.name}}</td>
-                <td>${{item.price}}</td>
-                <td>{{item.amount}}</td>
-                <td>{{item.date_added}}</td>
-            </tr>
-        {% endfor %}
-    </table>
-    
-    <br />
-    <h5>Last login session: {{ last_login }}</h5>
-    <br>
-    
-    <a href="{% url 'main:create_item' %}">
+    <a href="{% url 'main:show_main' %}">
         <button>
-            Add New Item
+            Home
         </button>
     </a>
-
-    <a href="{% url 'main:logout' %}">
-        <button>
-            Logout
-        </button>
-    </a>
-    
 {% endblock content %}
