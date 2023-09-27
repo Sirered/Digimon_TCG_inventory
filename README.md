@@ -249,6 +249,10 @@ path('logout/', logout_user, name='logout'),
 
    I just registered 2 different accounts and made 3 items for one of them (but that's done after the next step. We only have to make 3 for one of them, because the other one will get the items made during previous Assignments, which I had 3 of)
 
+   Proof:
+   <img src="/assets/PBP_Assignment4_Account1.png">
+   <img src="/assets/PBP_Assignment4_Account1.png">
+
    * **Connect Item model with User and display the information of the logged-in user, such as their username**
 
    In my models.py I imported the User class from django.contrib.auth.models. Then in my Item class/model I added a new attribute named user as a foreign key like so : `user = models.ForeignKey(User, on_delete=models.CASCADE)`, this linked the Item class to the User class, via the user foreign key, thus now every item has a User associated with it. 
