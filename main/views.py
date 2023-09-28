@@ -21,26 +21,11 @@ def show_main(request):
         'last_login': request.COOKIES['last_login'],
     }
 
-    if request.method == "POST":
-        print(request.POST)
-        if 'increment' in request.POST:
-            item = items.get(id = request.POST.get('increment'))
-            increment_amount(item)
-            return HttpResponseRedirect(reverse('main:show_main'))
-        elif 'decrement' in request.POST:
-            item = items.get(id = request.POST.get('decrement'))
-            decrement_amount(item)
-            return HttpResponseRedirect(reverse('main:show_main'))
-        elif 'delete' in request.POST:
-            item = items.get(id = request.POST.get('delete'))
-            item.delete()
-            return HttpResponseRedirect(reverse('main:show_main'))
-
     return render(request, 'main.html', context)
 
 def show_main_by_id(request, id):
     items = Item.objects.filter(user=request.user)
-    id_item = Item.objects.filter(user=request.user).get(id=id)
+    id_item = Item.objects.filter(user=request.user).get(pk=id)
     context = {
         'name' : request.user.username,
         'class' : 'PBP KKI',
@@ -63,6 +48,24 @@ def create_item(request):
 
     context = {'form': form}
     return render(request, "create_item.html", context)
+
+def delete_item(request, id):
+    item = Item.objects.get(pk=id)
+    item.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))
+
+def increment_amount(request, id):
+    item = Item.objects.get(pk = id)
+    item.amount += 1
+    item.save()
+    return HttpResponseRedirect(reverse('main:show_main'))
+
+def decrement_amount(request, id):
+    item = Item.objects.get(pk = id)
+    if item.amount>0:
+        item.amount -= 1
+    item.save()
+    return HttpResponseRedirect(reverse('main:show_main'))
 
 def register(request):
     form = UserCreationForm()
@@ -96,15 +99,6 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('main:login'))
     response.delete_cookie('last_login')
     return response
-
-def increment_amount(item):
-    item.amount += 1
-    item.save()
-
-def decrement_amount(item):
-    if item.amount>0:
-        item.amount -= 1
-    item.save()
 
 
 def show_xml(request):

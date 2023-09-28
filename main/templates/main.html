@@ -21,21 +21,30 @@
     
         {% for item in items %}
             <tr>
-                <form method="post">
-                    {% csrf_token %}
-                    <td> <a href="/{{item.id}}">{{item.code}}</a></td>
-                    <td>{{item.name}}</td>
-                    <td>${{item.price}}</td>
-                    <td>
-                        <button type = "submit" name = "increment" value = {{item.id}}>+</button>
-                        {{item.amount}}
-                        <button type = "submit" name = "decrement" value = {{item.id}}>-</button>
-                    </td>
-                    <td>{{item.date_added}}</td>
-                    <td>
-                        <button type = "submit" name = "delete" value = {{item.id}}>DELETE</button>
-                    </td>
-                </form>
+                <td> <a href="/{{item.id}}">{{item.code}}</a></td>
+                <td>{{item.name}}</td>
+                <td>${{item.price}}</td>
+                <td>
+                    <a href="{% url 'main:increment_amount' item.id %}">
+                        <button>
+                            +
+                        </button>
+                    </a>
+                    {{item.amount}}
+                    <a href="{% url 'main:decrement_amount' item.id %}">
+                        <button>
+                            -
+                        </button>
+                    </a>
+                </td>
+                <td>{{item.date_added}}</td>
+                <td>
+                    <a href="{% url 'main:delete_item' item.id %}">
+                        <button>
+                            Delete
+                        </button>
+                    </a>
+                </td>
             </tr>
         {% endfor %}
     </table>
