@@ -289,3 +289,172 @@ path('logout/', logout_user, name='logout'),
    Similar to the ID Selector, we can define a class in the style sheet, along with the style of that class that will be used by the element(s) that has that class. The difference with id however is that the class doesn't have to be unique, thus multiple elements within the webpage can have that style, which is useful for repeated types of elements (like when you have multiple cards representing multiple items) allowing easy reusability, by just declaring that the element is of a certain class in their tag. It is also more flexible than the element selector as the use of classes doesn't change all of the elements that need to use that tag, for example it allows you to define a class of images that are smaller and have different dimensions (maybe for cards) while not changing the images that don't have that class that need to remain normal size within the same webpage. Furthermore, one element can have multiple classes, so if it needs to implement certain attributes of multiple classes for the style of the element, one can do so, by just adding them all to the string for classes, separating each class with a space.
 
    Overall, selectors are used for reusability of styles, as well as allowing us to separate the styles from the templates, which helps with code readability (to a certain extent [having multiple classes does diminish readability]), so it is in our best interest to utilise such to allow for simpler, convenient and consistent implementation.
+
+___________________________
+
+## Explain some of the HTML5 tags that you know. 
+
+   html: declares that this an html document and contains content that should be read as an html
+
+   head: holds all metadata information
+
+   body: holds all content within the webpage
+
+   h1 - h5: Large font-sized text with bolding that are used fo headers
+
+   p: Starts a new paragraph with the content specified inside
+
+   br: creates a line break
+
+   div: Groups elements together, used as a generic container 
+
+   nav: Groups elements together to create a navigation bar. Similar function to div, just more specific and is used to be semantically correct
+
+   a: Creates links, where the destination that the link leads to is defined within the tag in the attribute href, while the content that has the link embedded on it is between the tags
+
+   button: creates a button, that can be within an a tag, or itself has the href and submit.
+
+   title: determines what is written in the taskbar when opening the website
+
+   img: A tag to add images that either comes from an assets folder or from the internet
+
+   table: declares that the contents between the tags is a table 
+
+   tr: defines the row of a table
+
+   td: defines a cell within a row in thetable
+
+   form: declares that the content between the tags is a form
+
+   input: creates an input text field
+
+   ul: declares an unordered list
+
+   ol: declares an ordered list
+
+   li: declares a list iten within a list (ordered or unordered)
+
+   span: generic container element used to separate content within a tag, so you can apply styles to only a portion of the text
+
+_________________________________________
+
+## What are the differences between margin and padding?
+
+   Padding refers to the space between the contents of an element and it's border. Increasing padding expands the inner space of the element, pushing the content away from the element's borders. For example if you feel the space within your button is too cramped and would like your text to be farther away from the borders you would use padding to increase the space between the text and the borders, so now the text looks less squished. On the other hand margin is used to refer to the space between the element and other elements.  Increasing the margin of an element pushes it away from neighboring elements. Thus if you don't like the fact that your 2 buttons are right next to each other and touching, you would increase the margin attribute of one of the buttons to increase the distance between the 2 buttons.
+
+_______________________________________
+
+## What are the differences between the CSS framework Tailwind and Bootstrap? When should we use Bootstrap rather than Tailwind, and vice versa?
+
+   The main difference between the 2 frameworks is that the Bootstrap framework contains predefined styles and components that are ready to use, whereas Tailwind provides many predefined utility-classes that you can use to customise and make your components. An example of this is how Bootstrap has many predefined button types, such as primary, secondary, warning, danger etc. that has already been styled and predefined by bnootstrap that you can use by just adding the relevant class onto the element you want to have that style on, whereas if you're using Tailwind, it by itself doesn't have a class that gives you the complete style for a button, but instead classes that are useful to design the button, such as a class that makes the button rounded, a class that defines the color when it is or isn't hovered on, a class that makes it into a flex component, a class that centers it's components etc. that when mixed will give you a highly customised button. 
+
+   This main difference makes Bootstrap a lot easier to pick up for beginners and allows for very consistent design as it has all of the styles that they would need already defined and ready to use, whereas tailwind allows for a lot more customisability that more experienced developers or developers that require a highly customised style for their website would prefer In general Tailwind is probably better to utilise and learn, because there will inevitably be a moment where you need that flexibility in your design and manually changing the style using style sheet or within the tag to override certain aspects of a Bootstrap class won't cut it, so it's best to learn it early (I am currently using bootstrap, mostly because I wasn't able to run Tailwind properly). Furthermore, although the initial size of the Tailwind file is rather large, the size on deployment actually becomes much smaller than the Bootstrap file, because Tailwind scraps any unused css then minimises and compresses that file for efficient and quick use.
+
+##  Explain how you implemented the checklist above step-by-step (not just following the tutorial).
+
+### Getting started 
+
+   Firstly I created a static directory within my main application directory. Within the newly made directory, I made 2 more folders, one called assets and the other called css. Lastly, within the css directory I added a file called styles.css. This static folder will be what is called when we load static. The css directory will contain the style sheets whereas the assets folder will contain assets, such as images. The styles.css will be the main style sheet used in this project.
+   
+   Then within the settings.py file import os and make sure that these lines are within the file:
+```
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = 'static/'
+```
+   I already had the static url line, so I just needed to add the static root line. These line directs Django to where the static directory is found
+
+   Then within base.html I added the following line:
+```
+<link rel="stylesheet" href="{% static 'css\styles.css' %}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+J4jsl5c9zdLKaUk5Ae5f5b1bw6AUn5f5v8FZJoMxm6f5cH1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+```
+   Which sets up bootstrap and refer to the styles.css file we made to apply the styles to all of our templates.
+
+### Other Changes (loosely related to the customisation stuff
+
+   Within views.py I created an edit_item function that is called to edit items, in a similar manner to the create_item function, just that it accepts an integer parameter called id, which will be used identify the item that will be edited. I then setup the path in urls.py and created the edit-item.html in my templates folder that is called by the newly created function. Afterwards I made the button that calls the edit function for each item by adding the following lines within th td tag that contains the button to delete items:
+```
+<a href="{% url 'main:edit_item' item.id %}">
+   <button>
+      Edit
+   </button>
+</a>
+```
+   I used similar steps to make my delete, increment and decrement feature for last week's bonus. Within the views.py I also added the key: value pair of 'name' : request.user.name in the edit and create item function's context dictionary. I also made the margin and padding of html and body to 0px in the styles.css sheet.
+
+   Another edit I made, was that in the models.py file, I added a dictionary called COLOR_CHOICES with all the different possible colours of the digimon, as well as a charfield called color that uses COLOR_CHOICES for choices inside the Item class/model. I then made migrations, making the default blue and then migrated the changes 
+### Navbar
+
+   With reference to the bootstrap documentation I created a grey Navbar that contained the user's name and a giant blue logout button. The text and the button was stylised using bootstrap classes. here is the lines that made the navbar, which I proceeded to copy paste to all pages other than the login and register page:
+```
+<nav class="navbar navbar-expand-lg bg-body-tertiary" style = "margin: 0; padding: 0;">
+   <div class="container-fluid" style = "background-color: dimgray; padding-right: 0;">
+      <a class="navbar-brand" href="{% url 'main:show_main' %}" style = "color: aliceblue;">{{ name }}</a>
+      <a href="{% url 'main:logout' %}">
+         <button class="btn btn-primary btn-lg">Logout</button>
+      </a>
+   </div>
+</nav>
+```
+
+### Login and Register page
+
+   I encased the already made forms in the html with a pair of div tags, with the following styling. 
+
+```
+class = "container min-vh-100 d-flex justify-content-end" style = "padding-right: 0%; margin-right: 0%; height: 100vh; background-color: white;width: 30%;"
+```
+
+   I also added the class align-self-center to the div element that originally encased the form elements. These 2 changes made it so that the forms are contained within a white container that is justified to the end (which is the very right of the screen), taking up the entire height, and 30% of the screen width. The form itself is also aligned to be in the center of the screen in terms of the y-axis. 
+
+   Afterwards, I added the {% load static %} tag to the 2 html files. I then downloaded an image from the internet to the assets folder in the static directory and named it Digimon_Card_Game_main.png. Once that was done I added the following line to both of the html temnplates 
+
+```
+<body id="bg" style="background-image: url('{%static 'assets/Digimon_Card_Game_main.png'%}') ;"></body>
+```
+
+   This  made the body background to become the image that we just downloaded. Afterwards I defined the bg id in the styles.css file, making it positioned at the top, take up 100% of the height per repition (since the image repeats itself until it fills out the screen size) 35% of the width per repitition, as well as make the background attachment fixed. I then editted the buttons in both templates to have the bootstrap classes btn and btn-primary. Afterwards I editted the width for the bg and container for register, as the register form is significantly larger than the login form.
+
+### Create Item page
+   
+   Firstly, I created 2 grid container classes in the styles.css sheet, one that has 3 columns and another that has 2 columns and a top padding of 5px.. I then downloaded a module called django-widget-tweaks, using the pip installer and loaded that module to the create_item.html. Then within the create_item.html I removed the line of form.as_table as well as all of the table elements associated with suchm including the original button, and replaced it with 2 div tags, the first one having the grid-container class with 3 columns, while the second one has the grid container class with 2 columns. Within the first div container I added the name, category and code fields using the following template into the first div container, changing the form.field, the text and the place holder accordingly:
+   
+```
+<div class="form-group">
+   <p style = "font-weight: bold;"> Name: </p>
+   {% render_field form.name class="form-control" placeholder="Agumon" type="text" %}
+</div>
+```
+
+   In div container2 I added description using the same template, then added another div element within container2 with the class of form-group then added the color, price and amount field using the same template as before, but now no longer having the div tag for each field. I then also added the Add Item button again, with the same code as prior iterations, just adding the classes btn and btn-primary as well as adding a top margin of 15px.
+
+### Item List
+
+   There are a lot of buttons in the Item List page so I first styled them. For cases such as Delete, Edit, Add Item and Logout, I used the built in bootstrap button classes. For the increment and decrement button, I stylised an inc-btn and dec-btn class in the styles.css files and added those classes to the relevant buttons. I also added the style text-decoration: none to the a tag of buttons that were next to each other or small buttons, since if this isn't done, you will see blue lines caused by hyperlinks.
+
+   To edit the look of the table, I first added 50px of right padding to td and th in the styles.css file, so that the columns will now be adequately spaced. I also styled tables within the styles.css file to take up 100% width of the screen. To make the table look more appealing I added the classes table, table-striped and table-hover to the table in main.html. This made the rows of the table alternate in color, and made them darker when we hover over them. To do the bonus, I just added a css rule in the styles.css sheet to have td that is within tr: last-child, that is within tbody within a table with the class table-striped, to have a cyan background
+
+### Individual Item View
+
+   Firstly, I loaded static and wrapped the content containing the information regarding the chosen card within a div container with the following styling
+
+```
+class = "container card d-flex justify-content-center" style = "padding: 1%;width: 500px;
+```
+
+   This creates a div container that looks like a card. I then used if statements to determine the background color of the card. Then within the card div container I added the following line to add an image depending on the code of the digimon being viewed. The images will be taken from the assets folder found in the static directory, and if it doesn't exist there then it will just say the code of the Digimon
+
+```
+<img class="card-img-top" src="{% static 'assets/' %}{{item.code}}.webp" alt="{{item.name}}">
+```
+
+   I wrapped the information regarding the card in another div container with the class card-body (this card body is within the card container) and then editted each line of information to conform to the following template, changing the variable and the text accordingly for each field of the card:
+
+```
+<p class = "card-text"> <span style = "font-weight: bold;">Color: </span>{{ item.color }}</p>
+```
+
+   There are 2 exceptions however of this template. I separated the information regarding Description into 2 lines (1 declaring that the information up next is the description and the other is the actual description taken from the item.description variable), The other exception is that the item name field no longer has text that declares what upcoming information is (which was just "Name: ") and instead of having the card-text class it has the card-title class.
