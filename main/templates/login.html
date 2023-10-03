@@ -5,41 +5,44 @@
 {% endblock meta %}
 
 {% block content %}
+{% load static %}
+<body id="bg" style="background-image: url('{%static 'assets/Digimon_Card_Game_main.png'%}') ;">
+</body>
+<div class = "container min-vh-100 d-flex justify-content-end" style = "padding-right: 0%; margin-right: 0%; height: 100vh; background-color: white;width: 30%;">
+    <div class = "login align-self-center">
 
-<div class = "login">
+        <h1>Login</h1>
 
-    <h1>Login</h1>
-
-    <form method="POST" action="">
-        {% csrf_token %}
-        <table>
-            <tr>
-                <td>Username: </td>
-                <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
-            </tr>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td>Username: </td>
+                    <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
+                </tr>
                     
-            <tr>
-                <td>Password: </td>
-                <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
-            </tr>
+                <tr>
+                    <td>Password: </td>
+                    <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
+                </tr>
 
-            <tr>
-                <td></td>
-                <td><input class="btn login_btn" type="submit" value="Login"></td>
-            </tr>
-        </table>
-    </form>
+                <tr>
+                    <td></td>
+                    <td><input class="btn btn-primary" type="submit" value="Login"></td>
+                </tr>
+            </table>
+        </form>
 
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}     
-        
-    Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a>
-
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}     
+        <br>
+        <p>Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a></p>
+    </div>
 </div>
 
 {% endblock content %}

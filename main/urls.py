@@ -1,11 +1,12 @@
 from django.urls import path
-from main.views import show_main, create_item, show_json, show_json_by_id, show_xml, show_xml_by_id, register, login_user, logout_user, show_main_by_id, delete_item, increment_amount, decrement_amount
+from main.views import show_main, create_item, show_json, show_json_by_id, show_xml, show_xml_by_id, register, login_user, logout_user, show_main_by_id, delete_item, increment_amount, decrement_amount, edit_item
 
 app_name = 'main'
 
 urlpatterns = [
     path('<int:id>/', show_main_by_id, name='show_main_by_id'),
     path('', show_main, name='show_main'),
+    path('edit-item/<int:id>', edit_item, name='edit_item'),
     path('create-item/', create_item, name='create_item'),
     path('increment-amount/<int:id>', increment_amount, name='increment_amount'),
     path('decrement-amount/<int:id>', decrement_amount, name='decrement_amount'),

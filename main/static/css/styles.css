@@ -1,0 +1,56 @@
+html, body {
+    margin:0px;
+    padding:0px;
+}
+table {
+    width: 100%;
+}
+th, td {
+    padding-right: 50px;
+}
+.inc-btn{
+    background-color: lightgreen;
+    color: gray;
+    border-radius: 4px;
+    border: none;
+}
+.inc-btn:hover {
+    background-color: greenyellow;
+}
+
+.dec-btn{
+    background-color: rgb(232, 35, 35);
+    color: lightgray;
+    border-radius: 4px;
+    border: none;
+}
+.dec-btn:hover {
+    background-color: rgb(255, 0, 0);
+}
+.table-striped > tbody > tr:last-child > td{
+    background-color: cyan;
+}
+
+#bg{
+    background-position: top;
+    background-size: 35% 100%;
+    background-attachment: fixed;
+}
+
+#bg1{
+    background-position: top;
+    background-size: 33% 100%;
+    background-attachment: fixed;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 20px;
+}
+
+.grid-container1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}

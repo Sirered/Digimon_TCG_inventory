@@ -1,24 +1,42 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{{ appname }}</h1>
-    <h5>Name:</h5>
-    <p>{{ name }}</p>
+{% load static %}
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" style = "margin: 0; padding: 0;">
+        <div class="container-fluid" style = "background-color: dimgray; padding-right: 0;">
+            <a class="navbar-brand" href="{% url 'main:show_main' %}" style = "color: aliceblue;">{{ name }}</a>
+            <a href="{% url 'main:logout' %}">
+                <button class="btn btn-primary btn-lg">Logout</button>
+            </a>
+        </div>
+    </nav>
     <h5>Class:</h5>
     <p>{{ class }}</p>
     <br>
     <p>This is a work in progress. Here is info about {{ item.name }}</p>
     <br>
-    <p>Card name: {{ item.name }}</p>
-    <p>Category: {{ item.category }}</p>
-    <p>Card code: {{ item.code }}</p>
-    <p>Amount in Stock: {{ item.amount }}</p>
-    <p>Average listed price: ${{ item.price }}</p>
-    <p>Description: {{ item.description }}</p>
-    <br>
+    {% if item.color == "Black"%}
+        <div class = "container card d-flex justify-content-center" style = "padding: 1%;width: 500px; background-color: lightgrey">
+    {% elif item.color == "Purple"%}
+        <div class = "container card d-flex justify-content-center" style = "padding: 1%;width: 500px; background-color: #E0B0FF">
+    {% else %}
+    <div class = "container card d-flex justify-content-center" style = "padding: 1%;width: 500px; background-color: light{{item.color}}">
+    {% endif %}
+        <img class="card-img-top" src="{% static 'assets/' %}{{item.code}}.webp" alt="{{item.name}}">
+        <div class="card-body">
+            <h5 class = "card-title" style = "font-weight: bold;">{{ item.name }}</h5>
+            <p class = "card-text"> <span style = "font-weight: bold;"> Color: </span>{{ item.color }}</p>
+            <p class = "card-text"> <span style = "font-weight: bold;"> Category: </span>{{ item.category }}</p>
+            <p class = "card-text"> <span style = "font-weight: bold;">Card code:</span> {{ item.code }}</p>
+            <p class = "card-text"> <span style = "font-weight: bold;">Amount in Stock:</span> {{ item.amount }}</p>
+            <p class = "card-text"> <span style = "font-weight: bold;">Average listed price:</span> ${{ item.price }}</p>
+            <p class = "card-text" style = "font-weight: bold;">Description:</p>
+            <p class = "card-text">{{ item.description }}</p>
+        </div>
+    </div>
     
     <a href="{% url 'main:show_main' %}">
-        <button>
+        <button class = "btn btn-primary">
             Home
         </button>
     </a>

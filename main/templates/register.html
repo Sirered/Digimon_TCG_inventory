@@ -5,11 +5,12 @@
 {% endblock meta %}
 
 {% block content %}  
-
-<div class = "login">
-    
-    <h1>Register</h1>  
-
+{% load static %}
+<body id="bg1" style="background-image: url('{%static 'assets/Digimon_Card_Game_main.png'%}') ;">
+</body>
+<div class = "container min-vh-100 d-flex justify-content-end" style = "padding-right: 0%; margin-right: 0%; height: 100vh; background-color: lightgray;width: 40%;">
+    <div class = "login align-self-center">
+        <h1>Register</h1>  
         <form method="POST" >  
             {% csrf_token %}  
             <table>  
@@ -28,7 +29,7 @@
                 {% endfor %}  
         </ul>   
     {% endif %}
-
+    </div>
 </div>  
 
 {% endblock content %}
