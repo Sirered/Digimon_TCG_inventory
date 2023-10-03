@@ -16,17 +16,19 @@
     <p>This is a work in progress. Here is info about {{ item.name }}</p>
     <br>
     {% if item.color == "Black"%}
-        <div class = "container card d-flex justify-content-center" style = "padding: 1%;width: 500px; background-color: lightgrey">
+    <div class = "container card d-flex justify-content-center" style = "padding: 1%;width: 500px; background-color: lightgrey">
     {% elif item.color == "Purple"%}
-        <div class = "container card d-flex justify-content-center" style = "padding: 1%;width: 500px; background-color: #E0B0FF">
+    <div class = "container card d-flex justify-content-center" style = "padding: 1%;width: 500px; background-color: #E0B0FF">
+    {% elif item.color == "Red"%}
+    <div class = "container card d-flex justify-content-center" style = "padding: 1%;width: 500px; background-color: #FFCCCB">
     {% else %}
     <div class = "container card d-flex justify-content-center" style = "padding: 1%;width: 500px; background-color: light{{item.color}}">
     {% endif %}
         <img class="card-img-top" src="{% static 'assets/' %}{{item.code}}.webp" alt="{{item.name}}">
         <div class="card-body">
             <h5 class = "card-title" style = "font-weight: bold;">{{ item.name }}</h5>
-            <p class = "card-text"> <span style = "font-weight: bold;"> Color: </span>{{ item.color }}</p>
-            <p class = "card-text"> <span style = "font-weight: bold;"> Category: </span>{{ item.category }}</p>
+            <p class = "card-text"> <span style = "font-weight: bold;">Color: </span>{{ item.color }}</p>
+            <p class = "card-text"> <span style = "font-weight: bold;">Category: </span>{{ item.category }}</p>
             <p class = "card-text"> <span style = "font-weight: bold;">Card code:</span> {{ item.code }}</p>
             <p class = "card-text"> <span style = "font-weight: bold;">Amount in Stock:</span> {{ item.amount }}</p>
             <p class = "card-text"> <span style = "font-weight: bold;">Average listed price:</span> ${{ item.price }}</p>
