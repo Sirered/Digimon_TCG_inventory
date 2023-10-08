@@ -1,5 +1,5 @@
 from django.urls import path
-from main.views import show_main, create_item, show_json, show_json_by_id, show_xml, show_xml_by_id, register, login_user, logout_user, show_main_by_id, delete_item, increment_amount, decrement_amount, edit_item
+from main.views import show_main, create_item, show_json, show_json_by_id, show_xml, show_xml_by_id, register, login_user, logout_user, show_main_by_id, delete_item, increment_amount, decrement_amount, edit_item, get_item_json, add_item_ajax
 
 app_name = 'main'
 
@@ -17,5 +17,7 @@ urlpatterns = [
     path('xml/', show_xml, name= 'show_xml'),
     path('json/', show_json, name = 'show_json'),
     path('xml/<int:id>/', show_xml_by_id, name= 'show_xml_by_id'),
-    path('json/<int:id>/', show_json_by_id, name= 'show_json_by_id')
+    path('json/<int:id>/', show_json_by_id, name= 'show_json_by_id'),
+    path('get-item/', get_item_json, name='get_item_json'),
+    path('create-item-ajax/', add_item_ajax, name='add_item_ajax'),
 ]

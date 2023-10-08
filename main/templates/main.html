@@ -13,52 +13,7 @@
     <p>{{ class }}</p>
     <br>
 
-    <table class="table table-striped table-hover">
-        <tr>
-            <th>Code</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Amount</th>
-            <th>Date Added</th>
-            <th></th>
-        </tr>
-    
-        {% comment %} Below is how to show the item data {% endcomment %}
-    
-        {% for item in items %}
-            <tr>
-                <td> <a href="/{{item.id}}">{{item.code}}</a></td>
-                <td>{{item.name}}</td>
-                <td>${{item.price}}</td>
-                <td>
-                    <a href="{% url 'main:increment_amount' item.id %}" style=" text-decoration: none;">
-                        <button class = inc-btn>
-                            +
-                        </button>
-                    </a>
-                    {{item.amount}}
-                    <a href="{% url 'main:decrement_amount' item.id %}">
-                        <button class = "dec-btn">
-                            - 
-                        </button>
-                    </a>
-                </td>
-                <td>{{item.date_added}}</td>
-                <td>
-                    <a href="{% url 'main:delete_item' item.id %}" style = "text-decoration: none;">
-                        <button class = "btn btn-danger" style = "padding-top: 5px; padding-bottom: 5px;">
-                            Delete
-                        </button>
-                    </a>
-                    <a href="{% url 'main:edit_item' item.id %}">
-                        <button class = "btn btn-info" style = "padding-top: 5px; padding-bottom: 5px;">
-                            Edit
-                        </button>
-                    </a>
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
+    <table id = "item_table" class="table table-striped table-hover"></table>
     
     <br />
     <h5>Last login session: {{ last_login }}</h5>
@@ -70,10 +25,135 @@
         </button>
     </a>
 
-    <a href="{% url 'main:logout' %}">
+    <a href="{% url 'main:logout' %}" style = "text-decoration: none;">
         <button class = "btn btn-outline-secondary">
             Logout
         </button>
     </a>
+
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Item by AJAX</button>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Item</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form" onsubmit="return false;">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="name" class="col-form-label">Name:</label>
+                            <input type="text" class="form-control" id="name" name="name"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="category" class="col-form-label">Category:</label>
+                            <input type="text" class="form-control" id="category" name="category"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="code" class="col-form-label">Code:</label>
+                            <input type="text" class="form-control" id="code" name="code"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="amount" class="col-form-label">Amount:</label>
+                            <input type="number" class="form-control" id="amount" name="amount"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="col-form-label">Price:</label>
+                            <input type="number" class="form-control" id="price" name="price"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="color" class="col-form-label">Color:</label>
+                            <select class="form-control" id="color" name="color">
+                                <option value="Blue">Select Color</option>
+                                <option value="Blue">Blue</option>
+                                <option value="Red">Red</option>
+                                <option value="Green">Green</option>
+                                <option value="Yellow">Yellow</option>
+                                <option value="Purple">Purple</option>
+                                <option value="Black">Black</option>
+                                <option value="White">White</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="col-form-label">Description:</label>
+                            <textarea class="form-control" id="description" name="description"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal">Add Item</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function getItems() {
+            return fetch("{% url 'main:get_item_json' %}").then((res) => res.json())
+        }
+        async function refreshItems() {
+            document.getElementById("item_table").innerHTML = ""
+            const items = await getItems()
+            let htmlString = `<tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Amount</th>
+                <th>Date Added</th>
+                <th></th>
+            </tr>`
+            items.forEach((item) => {
+                htmlString += `\n<tr>
+                <td> <a href="/${item.pk}">${item.fields.code}</a></td>
+                <td>${item.fields.name}</td>
+                <td>${item.fields.price}</td>
+                <td>
+                    <a href="/increment-amount/${item.pk}" style=" text-decoration: none;">
+                        <button class = inc-btn>
+                            +
+                        </button>
+                    </a>
+                    ${item.fields.amount}
+                    <a href="/decrement-amount/${item.pk}">
+                        <button class = "dec-btn">
+                            - 
+                        </button>
+                    </a>
+                </td>
+                <td>${item.fields.date_added}</td>
+                <td>
+                    <a href="/delete-item/${item.pk}" style = "text-decoration: none;">
+                        <button class = "btn btn-danger" style = "padding-top: 5px; padding-bottom: 5px;">
+                            Delete
+                        </button>
+                    </a>
+                    <a href="/edit-item/${item.pk}">
+                        <button class = "btn btn-info" style = "padding-top: 5px; padding-bottom: 5px;">
+                            Edit
+                        </button>
+                    </a>
+                </td>
+            </tr>` 
+        })
+        
+        document.getElementById("item_table").innerHTML = htmlString
+    }
+
+    function addItem() {
+        fetch("{% url 'main:add_item_ajax' %}", {
+            method: "POST",
+            body: new FormData(document.querySelector('#form'))
+        }).then(refreshItems)
+
+        document.getElementById("form").reset()
+        return false
+    }
+
+    document.getElementById("button_add").onclick = addItem
+    refreshItems()
+    </script>
     
 {% endblock content %}
