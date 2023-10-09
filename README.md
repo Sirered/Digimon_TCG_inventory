@@ -458,3 +458,13 @@ class = "container card d-flex justify-content-center" style = "padding: 1%;widt
 ```
 
    There are 2 exceptions however of this template. I separated the information regarding Description into 2 lines (1 declaring that the information up next is the description and the other is the actual description taken from the item.description variable), The other exception is that the item name field no longer has text that declares what upcoming information is (which was just "Name: ") and instead of having the card-text class it has the card-title class.
+
+# PBP Assignment 05
+
+## Explain the difference between asynchronous programming and synchronous programming.
+
+   Synchronous programming refers to the default method that we have learned since the beginning, in which each process must go line by line, one at a time, not allowing any other processes to run simultaneously. This is called a single-threaded model and is rather simple to visualise and implement, as it goes in perfect order with no interruptions in between that would make complications.
+
+   On the other hand asynchronous programming is a multi-threaded model in which multiple processes can run at the same time, without the need to wait for the completion of the processes that occurred.started before. Asynchronous programming typically leads to smooth user experiences as it decreases noticeable lag, since while processes that might take a while are occurring, the user is still able to interact with the application and run other processes, thus giving a seamless experience. This is in contrast to asynchronous programming, where if a process is taking a while, everything halts, which users will have to wait for, causing a percievably slower experience. 
+
+   Overall synchronous programming is the simpler method to implement, as asynchronous programming has a lot more edge cases to consider, due to multiple processes running concurrently, as well as being appropriate when dealing with a reactive application that does indeed require the result of prior processes to work properly. However, if you are trained, it is generally ideal to utilise asynchonous programming as it allows a raised user experience, which is essential for communication and networking with other users, as well as overall increased throughput
