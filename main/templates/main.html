@@ -125,11 +125,9 @@
                 </td>
                 <td>${item.fields.date_added}</td>
                 <td>
-                    <a href="/delete-item/${item.pk}" style = "text-decoration: none;">
-                        <button class = "btn btn-danger" style = "padding-top: 5px; padding-bottom: 5px;">
-                            Delete
-                        </button>
-                    </a>
+                    <button onclick="deleteItem(${item.pk})" class = "btn btn-danger del-btn" style = "padding-top: 5px; padding-bottom: 5px;">
+                        Delete
+                    </button>
                     <a href="/edit-item/${item.pk}">
                         <button class = "btn btn-info" style = "padding-top: 5px; padding-bottom: 5px;">
                             Edit
@@ -143,7 +141,7 @@
     }
 
     function addItem() {
-        fetch("{% url 'main:add_item_ajax' %}", {
+        fetch("{% url 'main:add_ajax' %}", {
             method: "POST",
             body: new FormData(document.querySelector('#form'))
         }).then(refreshItems)
@@ -152,6 +150,13 @@
         return false
     }
 
+    function deleteItem(id){
+        fetch("/delete-ajax/"+ id, {
+            method: "POST",
+        }).then(refreshItems)
+
+        return false
+    }
     document.getElementById("button_add").onclick = addItem
     refreshItems()
     </script>

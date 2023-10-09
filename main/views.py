@@ -133,7 +133,7 @@ def show_json_by_id(request, id):
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 def get_item_json(request):
-    item = Item.objects.all()
+    item = Item.objects.filter(user = request.user)
     return HttpResponse(serializers.serialize('json', item))
 
 @csrf_exempt
@@ -154,4 +154,12 @@ def add_item_ajax(request):
 
         return HttpResponse(b"CREATED", status=201)
 
+    return HttpResponseNotFound()
+
+@csrf_exempt
+def delete_item_ajax(request, id):
+    if request.method == 'POST':
+        item = Item.objects.get(pk = id)
+        item.delete()
+        return HttpResponse(b"DELETED", status = 201)
     return HttpResponseNotFound()
