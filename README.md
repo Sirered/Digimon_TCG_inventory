@@ -561,8 +561,8 @@ class = "container card d-flex justify-content-center" style = "padding: 1%;widt
     ```
 
    Afterwards I also added a button with the text Add Item by AJAX with some properties, the most important of which are ` data-bs-toggle="modal" data-bs-target="#exampleModal" `, the other properties are just for styling. 
-
-    Then I made a function called add_item_ajax that takes in a request and if the request uses the POST method, it will extract all of the inputted data from the body of the request using the method `request.POST.get`m as well as the user of the request and the current date in appropriately named variables, then make a new_item using these attributes. It then saves the items and returns an HTTPResponse , without reloading, with the message "CREATED". I then created the appropriate path in urls.py with the name of path being add_ajax
+   
+   Then I made a function called add_item_ajax that takes in a request and if the request uses the POST method, it will extract all of the inputted data from the body of the request using the method `request.POST.get`m as well as the user of the request and the current date in appropriately named variables, then make a new_item using these attributes. It then saves the items and returns an HTTPResponse , without reloading, with the message "CREATED". I then created the appropriate path in urls.py with the name of path being add_ajax
 
     Afterwards I created a function called addItem in the javascript section that requestss the function that was just created using the fetch function, via the add_ajax path, with the method of the request being POST and the body of the request being the formData taken from the form section with the id form (found in the modal that is initially hidden). After it gets the response from the server that the item has been CREATED it will run the refreshItems function then reset the form, so that it will be empty when we open the modal again.
 
