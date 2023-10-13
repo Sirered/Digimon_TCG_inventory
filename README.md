@@ -468,3 +468,106 @@ class = "container card d-flex justify-content-center" style = "padding: 1%;widt
    On the other hand asynchronous programming is a multi-threaded model in which multiple processes can run at the same time, without the need to wait for the completion of the processes that occurred.started before. Asynchronous programming typically leads to smooth user experiences as it decreases noticeable lag, since while processes that might take a while are occurring, the user is still able to interact with the application and run other processes, thus giving a seamless experience. This is in contrast to asynchronous programming, where if a process is taking a while, everything halts, which users will have to wait for, causing a percievably slower experience. 
 
    Overall synchronous programming is the simpler method to implement, as asynchronous programming has a lot more edge cases to consider, due to multiple processes running concurrently, as well as being appropriate when dealing with a reactive application that does indeed require the result of prior processes to work properly. However, if you are trained, it is generally ideal to utilise asynchonous programming as it allows a raised user experience, which is essential for communication and networking with other users, as well as overall increased throughput
+
+## Explain what event-driven programming paradigm means and give one example of its implementation in this assignment.
+
+   This paradigm refers is an approach that revolves around the occurence of events or inputs to determine the flow of the program (determines what to do next). Events include user actions (such as mouse click, mouse drag, keyboard entry etc.) the triggering of certain sensors, messsages from other programs or functions within the project, These events are passed to event handlers, which are functions that determine what is done when a certain event occurs, thus reacting to that event. Unlike the traditional method of programming, that does everything sequentially then stops, event-driven programs only executes code sequentially on startup(for initialisation), then will stay in a state in which it awaits for events to occur, responding to events accordingly, only ending when the process is terminated.
+
+   Event-driven programming is used a lot in GUI interfaces and webpages, that tend to require the actions of users such as clicking buttons on the interface/webpage, mousedrags and the like to interact with the program, request services/webpages and/or submit data. Without event-driven programming, these visual and interactive programs wouldn't be able to occur, because they wouldn't know how to process the events if and when they occur (not being able to identify the event and/or unable to know what the procedure is when a certain event does occur).
+
+## Explain the implementation of asynchronous programming in AJAX.
+
+   Ajax tends to be utilised in response to user events or to implement functionsthat need to be run at set intervals. The way they work is that when an event occurs that would trigger a function, it is handled by the appropriate javascript event handler. If that event needs to be processed by the server, a request is made and sent behind the scenes to the server to run the appropriate function. Since the webpage only had to send a request, and not actually do some of the processing nor fetching data from server itself, the website can still run without completing the task yet, allowing for users to still interact with the website while the server is spill processing the request. Once the request to the server has been completed, a response is returned to the webpage, which the javascript code can process and use. For example if you want to read data that wasn't loaded on the initial bootup, the javascript would send the request for the data to the server, await for the response (while still running normally), recieve the response, use the DOM to find the relevant element in which the data should be displayed in, process the response on the webpage using javascript to edit elements to show the changes made by the completion of the function. This allows us to process and show/return the result of a request/event without having to reload the entire webpage, by having the javascript code process and edit the webpage to show the new changes.
+
+## Compare fetch and jQuery and write down your opinion which technology is better to use.
+
+   jQuery is a rather old library that contains methods to implement many features of javascript one of which was ajax. Jquery was one of if not the top resource to implement ajax before the introduction of the fetch API in 2015. Advantages that jQuery has going for it, is the fact that it is essential to use when dealing with older webpages or browsers, since the Fetch API is only supported by newer browsers/applicaions. Furthermore, jQuery is generally regarded as easy to use (though fetch is also easy to learn) and from looking at converting jquery to fetch is less verbose that fetch. Lastly, jQuery includes other modules such to implement features such as animation (though there are other modern frameworks that can do the same.
+
+   On the other hand the fetch API is a feature native to javascript who's entire purpose is to handle requests and responses, possibly asynchronously. The fetch API is considered incredibly flexible as it allows you to control URL parameters, header, body and method of your requests to avoid ambiguity that might cause errors. Furthermore, as it is a native javascript feature it is rather lightweight and doesn't require any downloading to utilise, unlike jQuery who is rather large due to a rather hefty library that includes modules other than for ajax. An extention of the previous advantage is that, because of it's nativity, if you are working with others or are working on projects that you yourself didn't start, as long as it uses a modern version of javascript, you will most likely be able to utilise fetch if needed, whereas the same can't be guaranteed for jQuery. Lastly, with the use of the javascript promise and it's associated functions (like then and catch), as well as the use of async and await, fetch code is incredibly user friendly to read and understand.
+
+   Overall I think fetch is the better option to learn and utilise, primarily because of the fact that it's native to javascript, thus interacts well with other methods provided by javascript, as well as being usable in most if not all modern websites. JQuery sould really onlyu be used when dealing with legacy software/applications/browsers, as all of it's features are somewhat outdated and it's a heavy library to boot. The fact that I could only find fetch being compared to axios than jquery is a testament of such, since it's barely ever in the conversation.
+
+## Explain how you implemented the checklist above step-by-step (not just following the tutorial).
+
+   * **AJAX GET**
+
+     First, I made a function in views.py that gets all of the items of the user, serialises it to json, then return that response (without reloading). I then made a path for that function in urls.py. Afterwards I created an asynchronous function called getItems in my javascript section that requests for the newly created function in views.py, using fetch, and returns the response from that function to a .json.
+
+     Afterwards I made a javascript function called refreshItems in which, it calls the getItems function and stores the result in a constant variable called items. Afterwards the function would made a string constant called htmlString in which the part of the table in the main.html that wasn't within a django for loop (which was just the first row and the headers within it) is stored. After that the function will use a for loop for every item gathered from the get_item function concatenating the section from the original table that was within a django for loop into html string, though instead of {{item.id}} it's ${item.pk} and for the other variables instead of {{item.var}} it is ${item.fields.var}. Lastly, the function would get an item with the id item_table and make it's innerHTML to be the htmlString.
+
+     After making the above function I deleted the innerHTML of the original table and gave it the id "item_table". I also added a line within the scripts section that runs refresh items when the page is accessed.
+
+  * **AJAX POST**
+
+    First I made a modal that is initially hidden that contains the form and fades in and out when unhidden/hidden using the one from the tutorial as a template like so:
+
+       ```
+       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Item</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form" onsubmit="return false;">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="name" class="col-form-label">Name:</label>
+                            <input type="text" class="form-control" id="name" name="name"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="category" class="col-form-label">Category:</label>
+                            <input type="text" class="form-control" id="category" name="category"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="code" class="col-form-label">Code:</label>
+                            <input type="text" class="form-control" id="code" name="code"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="amount" class="col-form-label">Amount:</label>
+                            <input type="number" class="form-control" id="amount" name="amount"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="col-form-label">Price:</label>
+                            <input type="number" class="form-control" id="price" name="price"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="color" class="col-form-label">Color:</label>
+                            <select class="form-control" id="color" name="color">
+                                <option value="Blue">Select Color</option>
+                                <option value="Blue">Blue</option>
+                                <option value="Red">Red</option>
+                                <option value="Green">Green</option>
+                                <option value="Yellow">Yellow</option>
+                                <option value="Purple">Purple</option>
+                                <option value="Black">Black</option>
+                                <option value="White">White</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="col-form-label">Description:</label>
+                            <textarea class="form-control" id="description" name="description"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal">Add Item</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    ```
+
+   Afterwards I also added a button with the text Add Item by AJAX with some properties, the most important of which are ` data-bs-toggle="modal" data-bs-target="#exampleModal" `, the other properties are just for styling. 
+
+    Then I made a function called add_item_ajax that takes in a request and if the request uses the POST method, it will extract all of the inputted data from the body of the request using the method `request.POST.get`m as well as the user of the request and the current date in appropriately named variables, then make a new_item using these attributes. It then saves the items and returns an HTTPResponse , without reloading, with the message "CREATED". I then created the appropriate path in urls.py with the name of path being add_ajax
+
+    Afterwards I created a function called addItem in the javascript section that requestss the function that was just created using the fetch function, via the add_ajax path, with the method of the request being POST and the body of the request being the formData taken from the form section with the id form (found in the modal that is initially hidden). After it gets the response from the server that the item has been CREATED it will run the refreshItems function then reset the form, so that it will be empty when we open the modal again.
+
+   * **Run the collectstatic command**
+
+    Run the command `python manage.py collectstatic ` in terminal
+
+    Add the 'static/' directory to the .gitignore (as suggested by Pak Daya
