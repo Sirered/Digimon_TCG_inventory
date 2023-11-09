@@ -21,3 +21,4 @@ class Item(models.Model):
         ("White", "White")
     ]
     color = models.CharField(max_length=11, choices=COLOR_CHOICES)
+    rarity = models.CharField(max_length = 3, default='R')

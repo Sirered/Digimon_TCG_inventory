@@ -136,6 +136,10 @@ def get_item_json(request):
     item = Item.objects.filter(user = request.user)
     return HttpResponse(serializers.serialize('json', item))
 
+def get_item_json_by_rarity(request, rarity):
+    item = Item.objects.filter(user = request.user).filter(rarity = rarity)
+    return HttpResponse(serializers.serialize('json', item))
+
 @csrf_exempt
 def add_item_ajax(request):
     if request.method == 'POST':
@@ -146,10 +150,11 @@ def add_item_ajax(request):
         price = request.POST.get("price")
         description = request.POST.get("description")
         color = request.POST.get("color")
+        rarity = request.POST.get("rarity")
         date_added = datetime.datetime.now()
         user = request.user
 
-        new_item = Item(name=name, category=category, code=code, amount=amount, price=price, description=description, color = color, date_added = date_added,user=user)
+        new_item = Item(name=name, category=category, code=code, amount=amount, price=price, description=description, color = color, date_added = date_added,user=user, rarity = rarity)
         new_item.save()
 
         return HttpResponse(b"CREATED", status=201)

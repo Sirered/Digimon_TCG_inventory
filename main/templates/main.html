@@ -13,6 +13,12 @@
     <p>{{ class }}</p>
     <br>
 
+    <a href="/get-item/R" style = "text-decoration: none;">
+        <button onclick="filterRarity()" class = "btn btn-outline-secondary">
+            Filter R
+        </button>
+    </a>
+
     <table id = "item_table" class="table table-striped table-hover"></table>
     
     <br />
@@ -77,6 +83,10 @@
                             </select>
                         </div>
                         <div class="mb-3">
+                            <label for="rarity" class="col-form-label">Rarity:</label>
+                            <input type="text" class="form-control" id="rarity" name="rarity"></input>
+                        </div>
+                        <div class="mb-3">
                             <label for="description" class="col-form-label">Description:</label>
                             <textarea class="form-control" id="description" name="description"></textarea>
                         </div>
@@ -94,7 +104,7 @@
         async function getItems() {
             return fetch("{% url 'main:get_item_json' %}").then((res) => res.json())
         }
-        async function refreshItems() {
+        async function refreshItems(Prarity = 'All') {
             document.getElementById("item_table").innerHTML = ""
             const items = await getItems()
             let htmlString = `<tr>
@@ -102,10 +112,12 @@
                 <th>Name</th>
                 <th>Price</th>
                 <th>Amount</th>
+                <th>Rarity</th>
                 <th>Date Added</th>
                 <th></th>
             </tr>`
             items.forEach((item) => {
+                if (Prarity ='All' or item.fields.rarity == Prarity){
                 htmlString += `\n<tr>
                 <td> <a href="/${item.pk}">${item.fields.code}</a></td>
                 <td>${item.fields.name}</td>
@@ -123,6 +135,7 @@
                         </button>
                     </a>
                 </td>
+                <td>${item.fields.rarity}</td>
                 <td>${item.fields.date_added}</td>
                 <td>
                     <button onclick="deleteItem(${item.pk})" class = "btn btn-danger del-btn" style = "padding-top: 5px; padding-bottom: 5px;">
@@ -135,6 +148,7 @@
                     </a>
                 </td>
             </tr>` 
+        }
         })
         
         document.getElementById("item_table").innerHTML = htmlString
