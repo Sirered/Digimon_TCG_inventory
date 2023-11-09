@@ -11,7 +11,7 @@ class Item(models.Model):
     price = models.FloatField()
     description = models.TextField()
     date_added = models.DateField(default=datetime.date(2023,9,15))
-    COLOR_CHOICES = {
+    COLOR_CHOICES = [
         ("Blue", "Blue"),
         ("Red", "Red"),
         ("Green", "Green"),
@@ -19,5 +19,5 @@ class Item(models.Model):
         ("Purple", "Purple"),
         ("Black", "Black"),
         ("White", "White")
-    }
+    ]
     color = models.CharField(max_length=11, choices=COLOR_CHOICES)
