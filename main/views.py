@@ -178,7 +178,9 @@ def create_item_flutter(request):
             description = data["description"],
             category = data["category"],
             code = data["code"],
-            amount = int(data["amount"])
+            amount = int(data["amount"]),
+            date_added = datetime.datetime.now(),
+            color = data["color"] 
         )
 
         new_product.save()
