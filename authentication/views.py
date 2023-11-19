@@ -4,13 +4,15 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.forms import UserCreationForm
+import json
 
 @csrf_exempt
 def register(request):
     form = UserCreationForm()
 
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        data = json.loads(request.body)
+        form = UserCreationForm(data)
         if form.is_valid():
             form.save()
             return JsonResponse({
